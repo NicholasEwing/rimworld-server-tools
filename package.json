@@ -1,0 +1,20 @@
+{
+  "name": "rimworld-script",
+  "version": "1.0.0",
+  "description": "Updates RimWorld Server mods for the Open World mod",
+  "main": "app.js",
+  "bin": "app.js",
+  "pkg": {
+    "assets": [ "node_modules/**/*", "src/**/*" ]
+  },
+  "scripts": {
+    "dev": "node app.js",
+    "compile": "rm -rf build && pkg . -t windows --out-path build && cp -R ./node_modules/puppeteer/.local-chromium build/chromium"
+  },
+  "author": "Nicholas Ewing",
+  "license": "ISC",
+  "dependencies": {
+    "pkg": "^5.5.2",
+    "puppeteer": "^13.5.1"
+  }
+}

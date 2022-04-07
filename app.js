@@ -46,7 +46,11 @@ async function scrapeWorkshopCollection(url) {
     // Get mod names for each mod in the collection
     const modNames = Array.from(
       document.querySelectorAll(".collectionItemDetails .workshopItemTitle")
-    ).map((item) => item.textContent);
+    ).map((item) =>
+      item.textContent.replace(/[&\/\\#, +()$~%.'":*?<>{}]/g, "")
+    );
+
+    console.log(modNames);
 
     // format the workshop ID and mod name into the format [workshopId, modName] (ex: ['2009463077', 'Harmony'])
     let formattedMods = [];

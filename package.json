@@ -9,7 +9,7 @@
   },
   "scripts": {
     "dev": "node app.js",
-    "compile": "rm -rf build && pkg . -t windows --out-path build && cp -R ./node_modules/puppeteer/.local-chromium build/chromium"
+    "compile": "rm -rf build && pkg . -t windows --out-path build && cp -R ./node_modules/puppeteer/.local-chromium build/chromium && zip -r app.zip build && rm -rf build"
   },
   "author": "Nicholas Ewing",
   "license": "ISC",

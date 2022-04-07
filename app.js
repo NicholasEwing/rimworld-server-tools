@@ -5,16 +5,6 @@ const fs = require("fs/promises");
 // Adds support for pkg so we can turn this bad boy in an executable
 const isPkg = typeof process.pkg !== "undefined";
 
-//mac path replace
-let chromiumExecutablePath = isPkg
-  ? puppeteer
-      .executablePath()
-      .replace(
-        /^.*?\/node_modules\/puppeteer\/\.local-chromium/,
-        path.join(path.dirname(process.execPath), "chromium")
-      )
-  : puppeteer.executablePath();
-
 //check win32
 if (process.platform == "win32") {
   chromiumExecutablePath = isPkg
@@ -50,8 +40,6 @@ async function scrapeWorkshopCollection(url) {
       item.textContent.replace(/[&\/\\#, +()$~%.'":*?<>{}]/g, "")
     );
 
-    console.log(modNames);
-
     // format the workshop ID and mod name into the format [workshopId, modName] (ex: ['2009463077', 'Harmony'])
     let formattedMods = [];
     if (workshopIds.length === modNames.length) {
@@ -70,7 +58,7 @@ async function scrapeWorkshopCollection(url) {
 }
 
 const start = async () => {
-  console.log("Downloading mods...");
+  console.log("Scraping workshop collections...");
   const requiredMods = await scrapeWorkshopCollection(
     "https://steamcommunity.com/sharedfiles/filedetails/?id=2780083454"
   );

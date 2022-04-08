@@ -31,7 +31,6 @@ async function downloadAllMods(requiredMods, whitelistedMods) {
   const requiredPath = "C:\\RimWorldServer\\Mods";
   const whitelistedPath = `C:\\RimWorldServer\\Whitelisted\ Mods`;
 
-  // Download our mods. And we're done!
   await downloadModArray(requiredMods, whitelistedMods, b1, requiredPath);
   await downloadModArray(whitelistedMods, requiredMods, b2, whitelistedPath);
 }

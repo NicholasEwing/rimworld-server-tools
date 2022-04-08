@@ -5,7 +5,10 @@
   "main": "app.js",
   "bin": "app.js",
   "pkg": {
-    "assets": [ "node_modules/**/*", "src/**/*" ]
+    "assets": [
+      "node_modules/**/*",
+      "src/**/*"
+    ]
   },
   "scripts": {
     "dev": "node app.js",
@@ -14,6 +17,8 @@
   "author": "Nicholas Ewing",
   "license": "ISC",
   "dependencies": {
+    "ansi-colors": "^4.1.1",
+    "cli-progress": "^3.10.0",
     "pkg": "^5.5.2",
     "puppeteer": "^13.5.1"
   }

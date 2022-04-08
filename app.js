@@ -22,6 +22,7 @@ if (process.platform == "win32") {
 // TODO: Use fancy load indicators while web scraping
 const start = async () => {
   console.log("Scraping workshop collections...");
+
   const requiredMods = await scrapeWorkshopCollection(
     "https://steamcommunity.com/sharedfiles/filedetails/?id=2780083454"
   );
@@ -29,10 +30,9 @@ const start = async () => {
     "https://steamcommunity.com/sharedfiles/filedetails/?id=2780086503"
   );
 
-  downloadAllMods(requiredMods, whitelistedMods);
+  console.log("Finished scraping workshop collections!");
 
-  // await fs.writeFile("RequiredModlist.txt", requiredMods.join("\r\n"));
-  // await fs.writeFile("OptionalModlist.txt", optionalMods.join("\r\n"));
+  downloadAllMods(requiredMods, whitelistedMods);
 };
 
 start();

@@ -17,6 +17,7 @@
   "author": "Nicholas Ewing",
   "license": "ISC",
   "dependencies": {
+    "@nut-tree/nut-js": "^2.0.1",
     "ansi-colors": "^4.1.1",
     "cli-progress": "^3.10.0",
     "node-process-windows": "^0.0.2",

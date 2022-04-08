@@ -5,6 +5,7 @@ const fs = require("fs/promises");
 const scrapeWorkshopCollection = require("./functions/scrapeWorkshopCollection");
 const downloadAllMods = require("./functions/downloadAllMods");
 const focusRimWorldServer = require("./functions/focusRimWorldServer");
+const sendInputToServer = require("./functions/sendInputToServer");
 
 // Adds support for pkg so we can turn this bad boy in an executable
 const isPkg = typeof process.pkg !== "undefined";
@@ -23,24 +24,27 @@ if (process.platform == "win32") {
 // where the magic happens
 // TODO: Use fancy load indicators while web scraping
 const start = async () => {
-  // console.log("Scraping workshop collections...");
+  console.log("Scraping workshop collections...");
 
-  // const requiredMods = await scrapeWorkshopCollection(
-  //   "https://steamcommunity.com/sharedfiles/filedetails/?id=2780083454"
-  // );
-  // const whitelistedMods = await scrapeWorkshopCollection(
-  //   "https://steamcommunity.com/sharedfiles/filedetails/?id=2780086503"
-  // );
+  const requiredMods = await scrapeWorkshopCollection(
+    "https://steamcommunity.com/sharedfiles/filedetails/?id=2780083454"
+  );
+  const whitelistedMods = await scrapeWorkshopCollection(
+    "https://steamcommunity.com/sharedfiles/filedetails/?id=2780086503"
+  );
 
-  // console.log("Finished scraping workshop collections!");
+  console.log("Finished scraping workshop collections!");
 
-  // downloadAllMods(requiredMods, whitelistedMods);
-
-  // break up the copy files function and put it here eventually
-  // copyToServerFolders() TODO: This doesn't work yet, reorganize the folder structure
+  // TODO: Ensure downloadAllMods returns a promise so this can all run synchronously
+  await downloadAllMods(requiredMods, whitelistedMods);
 
   // ...focus our server window
-  focusRimWorldServer();
+  await focusRimWorldServer();
+
+  // type "reload" and hit enter after some time
+  setTimeout(() => {
+    sendInputToServer("reload");
+  }, 500);
 };
 
 start();

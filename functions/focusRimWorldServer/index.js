@@ -1,6 +1,6 @@
 const processWindows = require("node-process-windows");
 
-module.exports = function focusRimWorldServer() {
+module.exports = async function focusRimWorldServer() {
   const activeProcesses = processWindows.getProcesses(function (
     err,
     processes

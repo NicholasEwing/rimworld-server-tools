@@ -1,13 +1,9 @@
-const fsSync = require("fs");
-const fs = require("fs/promises");
-const { spawn } = require("child_process");
 const colors = require("ansi-colors");
 const { MultiBar } = require("cli-progress");
-const path = require("path");
 
 const downloadModArray = require("./helpers/downloadModArray");
 
-async function downloadAllMods(requiredMods, whitelistedMods) {
+module.exports = function downloadAllMods(requiredMods, whitelistedMods) {
   // Make our progress bars
   const multibar = new MultiBar({
     format: `Downloading {file} [${colors.cyan(
@@ -31,8 +27,6 @@ async function downloadAllMods(requiredMods, whitelistedMods) {
   const requiredPath = "C:\\RimWorldServer\\Mods";
   const whitelistedPath = `C:\\RimWorldServer\\Whitelisted\ Mods`;
 
-  await downloadModArray(requiredMods, whitelistedMods, b1, requiredPath);
-  await downloadModArray(whitelistedMods, requiredMods, b2, whitelistedPath);
-}
-
-module.exports = downloadAllMods;
+  downloadModArray(requiredMods, whitelistedMods, b1, requiredPath);
+  downloadModArray(whitelistedMods, requiredMods, b2, whitelistedPath);
+};

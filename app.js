@@ -24,8 +24,6 @@ if (process.platform == "win32") {
 // where the magic happens
 // TODO: Use fancy load indicators while web scraping
 const start = async () => {
-  console.log("Scraping workshop collections...");
-
   const requiredMods = await scrapeWorkshopCollection(
     "https://steamcommunity.com/sharedfiles/filedetails/?id=2780083454"
   );
@@ -33,16 +31,21 @@ const start = async () => {
     "https://steamcommunity.com/sharedfiles/filedetails/?id=2780086503"
   );
 
-  console.log("Finished scraping workshop collections!");
+  // const [requiredMods, whitelistedMods] = await Promise.all([
+  //   required,
+  //   whitelisted,
+  // ]);
 
-  // TODO: Ensure downloadAllMods returns a promise so this can all run synchronously
+  console.log("do we have these values??");
+  console.log(requiredMods.length);
+  console.log(whitelistedMods.length);
+
   await downloadAllMods(requiredMods, whitelistedMods);
 
-  // ...focus our server window
-  await focusRimWorldServer();
+  focusRimWorldServer();
 
-  // type "reload" and hit enter after some time
   setTimeout(() => {
+    console.log("reloading!");
     sendInputToServer("reload");
   }, 500);
 };

@@ -1,9 +1,12 @@
 const path = require("path");
 const puppeteer = require("puppeteer");
 const fs = require("fs/promises");
+const colors = require("ansi-colors");
+const { MultiBar } = require("cli-progress");
 
 const scrapeWorkshopCollection = require("./functions/scrapeWorkshopCollection");
 const downloadAllMods = require("./functions/downloadAllMods");
+const downloadNewMods = require("./functions/downloadNewMods");
 const focusRimWorldServer = require("./functions/focusRimWorldServer");
 const sendInputToServer = require("./functions/sendInputToServer");
 
@@ -22,7 +25,6 @@ if (process.platform == "win32") {
 }
 
 // where the magic happens
-// TODO: Use fancy load indicators while web scraping
 const start = async () => {
   const requiredMods = await scrapeWorkshopCollection(
     "https://steamcommunity.com/sharedfiles/filedetails/?id=2780083454"
@@ -31,21 +33,42 @@ const start = async () => {
     "https://steamcommunity.com/sharedfiles/filedetails/?id=2780086503"
   );
 
-  // const [requiredMods, whitelistedMods] = await Promise.all([
-  //   required,
-  //   whitelisted,
-  // ]);
+  const downloadBars = new MultiBar({
+    format: `{file} [${colors.cyan("{bar}")}] {percentage}% | {value}/{total}`,
+    barCompleteChar: "\u2588",
+    barIncompleteChar: "\u2591",
+    hideCursor: true,
+    stopOnComplete: true,
+    fps: 144,
+  });
 
-  console.log("do we have these values??");
-  console.log(requiredMods.length);
-  console.log(whitelistedMods.length);
+  // Define paths, xcopy needs backward slashes to work properly
+  const requiredPath = "C:\\RimWorldServer\\Mods";
+  const whitelistedPath = `C:\\RimWorldServer\\Whitelisted\ Mods`;
 
-  await downloadAllMods(requiredMods, whitelistedMods);
+  if (process.argv.includes("update")) {
+    await downloadNewMods(
+      requiredMods,
+      whitelistedMods,
+      requiredPath,
+      whitelistedPath,
+      downloadBars
+    );
+  } else {
+    await downloadAllMods(
+      requiredMods,
+      whitelistedMods,
+      requiredPath,
+      whitelistedPath,
+      downloadBars
+    );
+  }
 
-  focusRimWorldServer();
+  downloadBars.stop();
+
+  await focusRimWorldServer();
 
   setTimeout(() => {
-    console.log("reloading!");
     sendInputToServer("reload");
   }, 500);
 };

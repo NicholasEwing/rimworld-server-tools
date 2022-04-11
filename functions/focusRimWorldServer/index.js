@@ -12,7 +12,6 @@ module.exports = async function focusRimWorldServer() {
 
     if (openWorldProcesses.length > 0) {
       processWindows.focusWindow(openWorldProcesses[0]);
-      console.log("Focused RimWorld Server!");
       return;
     } else {
       throw new Error(
